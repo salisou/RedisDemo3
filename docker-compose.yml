@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  redisdemo3:
+    image: ${DOCKER_REGISTRY-}redisdemo3
+    build:
+      context: .
+      dockerfile: RedisDemo3/Dockerfile
+  mysqldb:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./store/:/var/lib/mysql   # Corretto l'indentazione e aggiunto il prefisso '/'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root  
+      - MYSQL_DATABASE=redisdemodb
+      - MYSQL_USER=userdemo
+      - MYSQL_PASSWORD=12345     # Corretto il nome della variabile d'ambiente
+  rediscache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+
